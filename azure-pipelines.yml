@@ -25,7 +25,9 @@ steps:
 
     - script: |
         echo "Build.SourcesDirectory :" $(Build.SourcesDirectory)
+        ls -al $(Build.SourcesDirectory)
         echo "Build.ArtifactStagingDirectory :" $(Build.ArtifactStagingDirectory)
+        ls -al $(Build.ArtifactStagingDirectory)
       displayName: 'show env vars'
 
 
