@@ -23,30 +23,29 @@ steps:
         npm run build
       displayName: 'npm build'
 
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: 'package.json' 
+        targetFolder: $(Build.ArtifactStagingDirectory)/npm
+      displayName: 'Copy package.json'   
+
     - script: |
         echo "Build.SourcesDirectory :" $(Build.SourcesDirectory)
         ls -al $(Build.SourcesDirectory)
         echo "Build.ArtifactStagingDirectory :" $(Build.ArtifactStagingDirectory)
         ls -al $(Build.ArtifactStagingDirectory)
+        ls -al $(Build.ArtifactStagingDirectory)/npm
       displayName: 'show env vars'
 
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/npm'
+        artifactName: npm
+      displayName: 'Publish npm artifact'
+      
+    - script: |
 
-# - task: CopyFiles@2
-#   inputs:
-#     sourceFolder: '$(Build.SourcesDirectory)'
-#     contents: '*.tgz' 
-#     targetFolder: $(Build.ArtifactStagingDirectory)/npm
-#   displayName: 'Copy npm package'
-
-# - task: CopyFiles@2
-#   inputs:
-#     sourceFolder: '$(Build.SourcesDirectory)'
-#     contents: 'package.json' 
-#     targetFolder: $(Build.ArtifactStagingDirectory)/npm
-#   displayName: 'Copy package.json'   
-
-# - task: PublishPipelineArtifact@1
-#   inputs:
-#     targetPath: '$(Build.ArtifactStagingDirectory)/npm'
-#     artifactName: npm
-#   displayName: 'Publish npm artifact'
+        ls -al $(Build.ArtifactStagingDirectory)
+        ls -al $(Build.ArtifactStagingDirectory)/npm
+      displayName: 'show env vars'
