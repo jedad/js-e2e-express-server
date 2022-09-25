@@ -21,8 +21,13 @@ steps:
     
     - script: |
         npm run build
+        npm test
       displayName: 'npm build'
 
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/TEST-*.xml'
     - task: CopyFiles@2
       inputs:
         sourceFolder: '$(Build.SourcesDirectory)'
@@ -48,4 +53,4 @@ steps:
 
         ls -al $(Build.ArtifactStagingDirectory)
         ls -al $(Build.ArtifactStagingDirectory)/npm
-      displayName: 'show env vars'
+      displayName: 'show env vars post publish'
