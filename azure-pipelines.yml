@@ -39,7 +39,8 @@ steps:
         sourceFolder: '$(Build.SourcesDirectory)'
         contents: 'package.json' 
         targetFolder: $(Build.ArtifactStagingDirectory)/npm
-      displayName: 'Copy package.json'   
+      displayName: 'Copy package.json'
+    
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/npm'
@@ -53,15 +54,29 @@ steps:
         artifactName: 'npm'
         downloadPath: '$(System.ArtifactsDirectory)'
 
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)-BuSoDi.zip'
+        replaceExistingArchive: true
+        verbose: true
+      displayName: 'archive Build.SourcesDirectory'
+
     - script: |
-        echo "Build.SourcesDirectory :" $(Build.SourcesDirectory)
-         # /home/vsts/work/1/s
-        echo "Build.ArtifactStagingDirectory :" $(Build.ArtifactStagingDirectory)
+        echo "Build.WorkingDirectory :" $(Build.WorkingDirectory)
+         # /home/vsts/work/
+        ls -al $(Build.WorkingDirectory)
+        echo "Build.BinariesDirectory :" $(Build.BinariesDirectory)
          # /home/vsts/work/1/
-        echo "System.ArtifactsDirectory :" $(System.ArtifactsDirectory)
-         #??
-        ls -al $(System.ArtifactsDirectory)
+        ls -al $(Build.BinariesDirectory)
+        echo "Build.SourcesDirectory :" $(Build.SourcesDirectory)
         ls -al $(Build.SourcesDirectory)
+         # /home/vsts/work/1/s
+        echo "System.ArtifactsDirectory :" $(System.ArtifactsDirectory)
+        echo "Build.ArtifactStagingDirectory :" $(Build.ArtifactStagingDirectory)
         ls -al $(Build.ArtifactStagingDirectory)
+        echo "Build.ArtifactStagingDirectory/npm :" $(Build.ArtifactStagingDirectory)/npm
         ls -al $(Build.ArtifactStagingDirectory)/npm
       displayName: 'show final env vars'
