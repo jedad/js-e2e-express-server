@@ -28,6 +28,12 @@ steps:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/TEST-*.xml'
+
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: 'coverage/cobertura-coverage.xml'
+
     - task: CopyFiles@2
       inputs:
         sourceFolder: '$(Build.SourcesDirectory)'
@@ -39,6 +45,18 @@ steps:
         targetPath: '$(Build.ArtifactStagingDirectory)/npm'
         artifactName: npm
       displayName: 'Publish npm artifact'
+  
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: 'coverage/cobertura-coverage.xml'
+
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: '*'
+        downloadPath: '$(System.ArtifactsDirectory)'
 
     - script: |
         echo "Build.SourcesDirectory :" $(Build.SourcesDirectory)
