@@ -46,8 +46,24 @@ steps:
         sourceFolder: '$(Build.SourcesDirectory)'
         contents: '**\*.js **\*.json'
         targetFolder: $(Build.ArtifactStagingDirectory)/app
-      displayName: 'Copy package.json'
+      displayName: 'Copy js & json files'
+
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: $(Build.ArtifactStagingDirectory)/app
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/app/$(Build.BuildId)-app.zip'
+        replaceExistingArchive: true
+        verbose: true
+      displayName: 'archive js json'
     
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-app.zip'
+        artifactName: app.zip
+      displayName: 'Publish app artifact'
+
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/npm'
