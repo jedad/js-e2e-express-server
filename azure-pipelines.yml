@@ -45,12 +45,12 @@ steps:
       inputs:
         sourceFolder: '$(Build.SourcesDirectory)'
         contents: '**\*.js'
-        targetFolder: $(Build.ArtifactStagingDirectory)/app
-      displayName: 'Copy js & json files'
+        targetFolder: $(Build.SourcesDirectory)/app
+      displayName: 'Copy app files'
 
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: $(Build.ArtifactStagingDirectory)/app
+        rootFolderOrFile: $(Build.SourcesDirectory)/app
         includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/app/$(Build.BuildId)-app.zip'
@@ -60,8 +60,8 @@ steps:
     
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-app.zip'
-        artifactName: app.zip
+        targetPath: '$(Build.ArtifactStagingDirectory)/app'
+        artifactName: app
       displayName: 'Publish app artifact'
 
     - task: PublishPipelineArtifact@1
