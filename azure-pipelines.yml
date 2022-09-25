@@ -41,33 +41,10 @@ steps:
         targetFolder: $(Build.ArtifactStagingDirectory)/npm
       displayName: 'Copy package.json'
 
-    - task: CopyFiles@2
-      inputs:
-        sourceFolder: '$(Build.SourcesDirectory)'
-        contents: '**\*.js'
-        targetFolder: $(Build.SourcesDirectory)/app
-      displayName: 'Copy app files'
-
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: $(Build.SourcesDirectory)/app
-        includeRootFolder: true
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/app/$(Build.BuildId)-app.zip'
-        replaceExistingArchive: true
-        verbose: true
-      displayName: 'archive js json'
-    
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)/app'
-        artifactName: app
-      displayName: 'Publish app artifact'
-
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/npm'
-        artifactName: npm
+        artifactName: npm-json
       displayName: 'Publish npm artifact'
 
     - task: ArchiveFiles@2
@@ -75,7 +52,7 @@ steps:
         rootFolderOrFile: '$(Build.SourcesDirectory)'
         includeRootFolder: true
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)-BuSoDi.zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/zip/$(Build.BuildId)-app.zip'
         replaceExistingArchive: true
         verbose: true
       displayName: 'archive Build.SourcesDirectory'
@@ -83,8 +60,8 @@ steps:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/zip'
-        artifactName: zip
-      displayName: 'Publish zip artifact'
+        artifactName: app
+      displayName: 'Publish app zip artifact'
 
 
     - script: |
