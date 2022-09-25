@@ -44,7 +44,7 @@ steps:
     - task: CopyFiles@2
       inputs:
         sourceFolder: '$(Build.SourcesDirectory)'
-        contents: '**\*.js **\*.json'
+        contents: '**\*.js'
         targetFolder: $(Build.ArtifactStagingDirectory)/app
       displayName: 'Copy js & json files'
 
