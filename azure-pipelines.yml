@@ -47,13 +47,6 @@ steps:
         artifactName: npm
       displayName: 'Publish npm artifact'
 
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'npm'
-        downloadPath: '$(System.ArtifactsDirectory)'
-
     - task: ArchiveFiles@2
       inputs:
         rootFolderOrFile: '$(Build.SourcesDirectory)'
@@ -63,6 +56,13 @@ steps:
         replaceExistingArchive: true
         verbose: true
       displayName: 'archive Build.SourcesDirectory'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/zip'
+        artifactName: zip
+      displayName: 'Publish zip artifact'
+
 
     - script: |
         echo "Build.WorkingDirectory :" $(Build.WorkingDirectory)
