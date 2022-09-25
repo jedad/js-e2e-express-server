@@ -55,8 +55,13 @@ steps:
 
     - script: |
         echo "Build.SourcesDirectory :" $(Build.SourcesDirectory)
-        ls -al $(Build.SourcesDirectory)
+         # /home/vsts/work/1/s
         echo "Build.ArtifactStagingDirectory :" $(Build.ArtifactStagingDirectory)
+         # /home/vsts/work/1/
+        echo "System.ArtifactsDirectory :" $(System.ArtifactsDirectory)
+         #??
+        ls -al $(System.ArtifactsDirectory)
+        ls -al $(Build.SourcesDirectory)
         ls -al $(Build.ArtifactStagingDirectory)
         ls -al $(Build.ArtifactStagingDirectory)/npm
       displayName: 'show final env vars'
