@@ -18,8 +18,11 @@ steps:
     - script: |
         npm install
         npm run build
+      displayName: 'npm install, run build'
+    
+    - script: |
         npm test
-      displayName: 'npm install, run build & test'
+      displayName: 'npm test'
 
     - task: PublishTestResults@2
       inputs:
